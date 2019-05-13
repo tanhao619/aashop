@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.th.demo.modular.dao.AAshopMapper">
+
+    <select id="getList" resultType="com.th.demo.modular.entity.AAshop">
+        SELECT id,name,price,remark,userToken,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i:%s') createTime FROM shop WHERE status = 0
+        <if test="value != '' and value != null">
+            and name LIKE concat('%','${value}','%')
+        </if>
+        ORDER BY createTime DESC
+    </select>
+
+    <select id="login" resultType="Integer">
+        SELECT COUNT(*) FROM user WHERE userName = ${userName} AND passWord = ${passWord}
+    </select>
+
+    <update id="account">
+        UPDATE shop SET status = 1 WHERE status = 0
+    </update>
+</mapper>

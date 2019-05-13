@@ -1,0 +1,37 @@
+server:
+  port: 18001 #项目端口
+
+demo-switch:
+  swagger-open: true #swagger开关(true:打开, false:关闭)
+
+#开发配置
+spring:
+  datasource:
+     driver-class-name: com.mysql.jdbc.Driver
+#     url: jdbc:mysql://localhost:3306/aashop?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true
+     url: jdbc:mysql://148.70.55.13:3306/aashop?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true
+     username: root
+     password: root
+    # 使用druid数据源
+#type: com.alibaba.druid.pool.DruidDataSource
+
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*.xml
+  typeAliasesPackage: com.th.demo.modular.entity
+  global-config:
+    id-type: 0  #0:数据库ID自增   1:用户输入id  2:全局唯一id(IdWorker)  3:全局唯一ID(uuid)
+    db-column-underline: false
+    refresh-mapper: true
+  configuration:
+    map-underscore-to-camel-case: false
+    cache-enabled: true #配置的缓存的全局开关
+    lazyLoadingEnabled: true #延时加载的开关
+    multipleResultSetsEnabled: true #开启的话，延时加载一个属性时会加载该对象全部属性，否则按需加载属性
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+logging:
+  config: classpath:logback-spring.xml
+  level: warn
+debug: true
+
+

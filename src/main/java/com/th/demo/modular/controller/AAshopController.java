@@ -25,7 +25,7 @@ public class AAshopController {
     @Autowired
     private IAAshopService IAAshopService;
 
-    @ApiOperation(value="账单列表", notes="账单列表",response = HttpMessage.class)
+    @ApiOperation(value="账单列表详情", notes="账单列表详情",response = HttpMessage.class)
     @GetMapping("/aashop/lists")
     public Tip listPage(
             @ApiParam(value = "页码。默认第一页(起始索引为1)",defaultValue = "1") @RequestParam(value="pagenum", required=false, defaultValue = "1") Integer pagenum,
@@ -35,6 +35,28 @@ public class AAshopController {
     ) throws Exception{
         Page page=new Page(pagenum,pagesize);
         return IAAshopService.getAAList(page, searchvalue,userToken);
+    }
+
+    @ApiOperation(value="我的账单列表", notes="我的账单列表",response = HttpMessage.class)
+    @GetMapping("/aashop/mylist")
+    public Tip mylist(
+            @ApiParam(value = "页码。默认第一页(起始索引为1)",defaultValue = "1") @RequestParam(value="pagenum", required=false, defaultValue = "1") Integer pagenum,
+            @ApiParam(value = "每页大小,默认为10", defaultValue = "10") @RequestParam(value="pagesize", required=false, defaultValue = "10") Integer pagesize,
+            @ApiParam(value = "用户标识",required = true) @RequestParam(value = "userToken") String userToken
+    ) throws Exception{
+        Page page=new Page(pagenum,pagesize);
+        return IAAshopService.getMylist(page,userToken);
+    }
+
+    @ApiOperation(value="每个人给的钱", notes="每个人给的钱",response = HttpMessage.class)
+    @GetMapping("/aashop/everyonePay")
+    public Tip everyonePay(
+            @ApiParam(value = "页码。默认第一页(起始索引为1)",defaultValue = "1") @RequestParam(value="pagenum", required=false, defaultValue = "1") Integer pagenum,
+            @ApiParam(value = "每页大小,默认为10", defaultValue = "10") @RequestParam(value="pagesize", required=false, defaultValue = "10") Integer pagesize,
+            @ApiParam(value = "用户标识",required = true) @RequestParam(value = "userToken") String userToken
+    ) throws Exception{
+        Page page = new Page(pagenum,pagesize);
+        return IAAshopService.everyonePay(page,userToken);
     }
 
     @ApiOperation(value="账单详情", notes="账单详情",response = HttpMessage.class)

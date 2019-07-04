@@ -26,6 +26,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -66,6 +67,72 @@ public class AAshopServiceImpl extends ServiceImpl<AAshopMapper, AAshop> impleme
         //加日志
         addLogToTXT(userToken,String.valueOf(total),String.valueOf(meTotal),String.valueOf(otherTotal));
         return ResultUtil.result(SuccessResultEnum.SUCCESS.getCode(), SuccessResultEnum.SUCCESS.getMessage(), result);
+    }
+
+    /**
+     * 我的账单列表
+     * @param page
+     * @param userToken
+     * @return
+     */
+    @Override
+    public Tip getMylist(Page page, String userToken) {
+        if (StringUtils.isEmpty(userToken)) {
+            return ResultUtil.result(BizExceptionEnum.EMPTY_ERROR.getCode(), BizExceptionEnum.EMPTY_ERROR.getMessage());
+        }
+        JSONObject result = new JSONObject(true);
+        //与我（userToken）相关的所有信息
+        List<AAshop> list = AAshopMapper.getMylist(page,userToken);
+        //两个人的总价
+        BigDecimal totalFor2 = new BigDecimal("0");
+        //三个人的总价
+        BigDecimal totalFor3 = new BigDecimal("0");
+        for (AAshop t:list){
+            String containPeople = t.getContainPeople();
+            if (null != containPeople && containPeople.contains(",")){
+                String[] split = containPeople.split(",");
+                String user = t.getUserToken();
+                if (null != split && split.length == 2){//两人得钱
+                    if(user.equals(userToken)){//我自己给的钱
+                        totalFor2 = totalFor2.add(t.getPrice());
+                    }else {
+                        totalFor2 = totalFor2.subtract(t.getPrice());
+                    }
+                }else if (null != split && split.length == 3){//三人的钱
+                    if(user.equals(userToken)){//我自己给的钱
+                        totalFor3 = totalFor3.add(t.getPrice());
+                    }else {
+                        totalFor3 = totalFor3.subtract(t.getPrice());
+                    }
+                }
+            }
+        }
+        //我需要付的钱
+        BigDecimal two = new BigDecimal("2");
+        BigDecimal three = new BigDecimal("3");
+        BigDecimal total4two = totalFor2.divide(two,2,BigDecimal.ROUND_FLOOR);
+        BigDecimal total4three = totalFor3.divide(three,2,BigDecimal.ROUND_FLOOR);
+        BigDecimal myTotal = total4two.add(total4three);
+
+        result.put("myTotal",myTotal);
+        result.put("myList",list);
+        return ResultUtil.result(SuccessResultEnum.SUCCESS.getCode(), SuccessResultEnum.SUCCESS.getMessage(), result);
+    }
+
+    /**
+     * 每个人给的钱
+     * @param page
+     * @param userToken
+     * @return
+     */
+    @Override
+    public Tip everyonePay(Page page, String userToken) {
+        if (StringUtils.isEmpty(userToken)) {
+            return ResultUtil.result(BizExceptionEnum.EMPTY_ERROR.getCode(), BizExceptionEnum.EMPTY_ERROR.getMessage());
+        }
+        JSONObject result = new JSONObject(true);
+        List<Map> list = AAshopMapper.getEveryonePay(page,userToken);
+        return ResultUtil.result(SuccessResultEnum.SUCCESS.getCode(), SuccessResultEnum.SUCCESS.getMessage(), list);
     }
 
     /**

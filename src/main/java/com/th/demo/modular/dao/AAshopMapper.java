@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Tanhao on 2018/3/22.
@@ -18,4 +19,8 @@ public interface AAshopMapper extends BaseMapper<AAshop> {
     Integer login(@Param("userName")String userName, @Param("passWord")String passWord);
 
     void account();
+
+    List<AAshop> getMylist(Page page,@Param("userToken") String userToken);
+
+    List<Map> getEveryonePay(Page page, @Param("userToken") String userToken);
 }

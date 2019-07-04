@@ -17,4 +17,8 @@ public interface IAAshopService {
      Tip login(String userName, String passWord) throws Exception;
 
      Tip account();
+
+     Tip getMylist(Page page, String userToken);
+
+     Tip everyonePay(Page page, String userToken);
 }

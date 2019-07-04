@@ -11,6 +11,7 @@ import com.th.demo.common.SuccessResultEnum;
 import com.th.demo.common.tips.Tip;
 import com.th.demo.modular.entity.AAshop;
 import com.th.demo.modular.service.IAAshopService;
+import com.th.demo.modular.dao.AAshopMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +33,14 @@ import java.util.stream.Collectors;
  */
 @Service
 @Transactional
-public class AAshopServiceImpl extends ServiceImpl<com.th.demo.modular.dao.AAshopMapper, AAshop> implements IAAshopService {
+public class AAshopServiceImpl extends ServiceImpl<AAshopMapper, AAshop> implements IAAshopService {
     private static final Logger logger = LoggerFactory.getLogger(AAshopServiceImpl.class);
     @Autowired
-    private com.th.demo.modular.dao.AAshopMapper AAshopMapper;
+    private AAshopMapper AAshopMapper;
 
+    /**
+     * 列表
+     */
     @Override
     public Tip getAAList(Page page, String searchvalue, String userToken) throws Exception {
         if (StringUtils.isEmpty(userToken)) {
@@ -64,12 +68,24 @@ public class AAshopServiceImpl extends ServiceImpl<com.th.demo.modular.dao.AAsho
         return ResultUtil.result(SuccessResultEnum.SUCCESS.getCode(), SuccessResultEnum.SUCCESS.getMessage(), result);
     }
 
+    /**
+     * 详情
+     * @param id
+     * @return
+     * @throws Exception
+     */
     @Override
     public Tip getDetail(Integer id) throws Exception {
         AAshop detail = AAshopMapper.selectById(id);
         return ResultUtil.result(SuccessResultEnum.SUCCESS.getCode(), SuccessResultEnum.SUCCESS.getMessage(), detail == null ? "" : detail);
     }
 
+    /**
+     * 增加账单
+     * @param shop
+     * @return
+     * @throws Exception
+     */
     @Override
     public Tip insertAAshop(AAshop shop) throws Exception {
         if (StringUtils.isEmpty(shop.getUserToken())) {
@@ -81,6 +97,13 @@ public class AAshopServiceImpl extends ServiceImpl<com.th.demo.modular.dao.AAsho
         return ResultUtil.result(SuccessResultEnum.SUCCESS.getCode(), SuccessResultEnum.SUCCESS.getMessage());
     }
 
+    /**
+     * 登录
+     * @param userName
+     * @param passWord
+     * @return
+     * @throws Exception
+     */
     @Override
     public Tip login(String userName, String passWord) throws Exception {
         Integer count = AAshopMapper.login(userName, passWord);
@@ -90,7 +113,7 @@ public class AAshopServiceImpl extends ServiceImpl<com.th.demo.modular.dao.AAsho
         return ResultUtil.result(SuccessResultEnum.SUCCESS.getCode(), SuccessResultEnum.SUCCESS.getMessage());
     }
 
-    /*
+    /**
     结算
      */
     @Override
@@ -99,6 +122,14 @@ public class AAshopServiceImpl extends ServiceImpl<com.th.demo.modular.dao.AAsho
         return ResultUtil.result(SuccessResultEnum.SUCCESS.getCode(), SuccessResultEnum.SUCCESS.getMessage());
     }
 
+    /**
+     * 日志打印
+     * @param userToken
+     * @param total
+     * @param meTotal
+     * @param otherTotal
+     * @throws Exception
+     */
     private static void addLogToTXT(String userToken,String total,String meTotal,String otherTotal) throws Exception {
         File writename = new File("aalog.txt");
         if(!writename.exists()){

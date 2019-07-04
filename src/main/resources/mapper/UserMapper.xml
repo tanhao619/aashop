@@ -3,9 +3,9 @@
 <mapper namespace="com.th.demo.modular.dao.AAshopMapper">
 
     <select id="getList" resultType="com.th.demo.modular.entity.AAshop">
-        SELECT id,name,price,remark,userToken,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i:%s') createTime FROM shop WHERE status = 0
+        SELECT id,name,price,remark,userToken,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i:%s') createTime,containPeople FROM shop WHERE status = 0
         <if test="value != '' and value != null">
-            and name LIKE concat('%','${value}','%')
+            and userToken LIKE concat('%','${value}','%')
         </if>
         ORDER BY createTime DESC
     </select>

@@ -15,6 +15,7 @@ public class AAshop {
     private String remark;
     private String createTime;
     private String userToken;
+    private String containPeople;
 
     public Integer getId() {
         return id;
@@ -62,5 +63,13 @@ public class AAshop {
 
     public void setUserToken(String userToken) {
         this.userToken = userToken;
+    }
+
+    public String getContainPeople() {
+        return containPeople;
+    }
+
+    public void setContainPeople(String containPeople) {
+        this.containPeople = containPeople;
     }
 }

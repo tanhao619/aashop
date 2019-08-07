@@ -19,11 +19,12 @@
     </update>
 
     <select id="getMylist" resultType="AAshop">
-        SELECT id,name,price,remark,userToken,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i:%s') createTime,containPeople FROM shop WHERE status = 0
-        <if test="userToken != '' and userToken != null">
-            and containPeople LIKE concat('%','${userToken}','%')
-        </if>
-        ORDER BY createTime DESC
+        SELECT DISTINCT s.id,s.name,s.price FROM shop s,bill b WHERE b.status = 0 and b.shop_id = s.id
+        ORDER BY s.createTime DESC
+    </select>
+
+    <select id="getMyMoneyInfo" resultType="String">
+
     </select>
 
     <select id="getEveryonePay" resultType="map">
@@ -33,4 +34,9 @@
         </if>
          GROUP BY userToken
     </select>
+    
+    <insert id="insertBill">
+        insert into bill (shop_id,userToken,debtPeople,money,status,createTime)
+        values (#{shop_id},#{userToken},#{debtPeople},#{money},#{status},#{createTime});
+    </insert>
 </mapper>

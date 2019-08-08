@@ -84,6 +84,6 @@ public class AAshopController {
     @ApiOperation(value="结算", notes="结算",response = HttpMessage.class)
     @PutMapping("/aashop/account")
     public Tip account() throws Exception{
-        return IAAshopService.account();
+        return  IAAshopService.account();
     }
 }

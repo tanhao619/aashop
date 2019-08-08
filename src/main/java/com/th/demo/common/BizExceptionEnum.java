@@ -11,7 +11,8 @@ public enum BizExceptionEnum {
     SUCCESS(200,"操作成功"),
 
     FAIL_LOGIN(501,"登录失败，用户名或密码错误"),
-    EMPTY_ERROR(502,"userToken不能为空")
+    EMPTY_ERROR(502,"userToken不能为空"),
+    EMPTY_LOGIN(503,"请输入用户名密码")
     ;
     BizExceptionEnum(int code, String message) {
         this.friendlyCode = code;

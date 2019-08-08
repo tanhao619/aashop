@@ -171,11 +171,14 @@ public class AAshopServiceImpl extends ServiceImpl<AAshopMapper, AAshop> impleme
      */
     @Override
     public Tip login(String userName, String passWord) throws Exception {
+        if (StringUtils.isEmpty(userName) || StringUtils.isEmpty(passWord)){
+            return ResultUtil.result(BizExceptionEnum.EMPTY_LOGIN.getCode(), BizExceptionEnum.EMPTY_LOGIN.getMessage());
+        }
         Integer count = AAshopMapper.login(userName, passWord);
         if (count == 0) {
-            throw new BussinessException(BizExceptionEnum.FAIL_LOGIN);
+            return ResultUtil.result(BizExceptionEnum.FAIL_LOGIN.getCode(), BizExceptionEnum.FAIL_LOGIN.getMessage());
         }
-        return ResultUtil.result(SuccessResultEnum.SUCCESS.getCode(), SuccessResultEnum.SUCCESS.getMessage());
+        return ResultUtil.result(SuccessResultEnum.SUCCESS.getCode(), SuccessResultEnum.SUCCESS.getMessage(),userName);
     }
 
     /**

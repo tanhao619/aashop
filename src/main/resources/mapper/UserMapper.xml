@@ -19,8 +19,8 @@
     </update>
 
     <select id="getMylist" resultType="AAshop">
-        SELECT DISTINCT s.id,s.name,s.price FROM shop s,bill b WHERE b.status = 0 and b.shop_id = s.id
-        ORDER BY s.createTime DESC
+        SELECT id,name,price,remark,userToken,createTime FROM shop WHERE status = 0 and userToken=#{userToken}
+        ORDER BY createTime DESC
     </select>
 
     <select id="getMyMoneyInfo" resultType="String">
@@ -28,7 +28,7 @@
     </select>
 
     <select id="getEveryonePay" resultType="map">
-        SELECT userToken,SUM(price) total FROM shop WHERE status = 0
+        SELECT userToken,SUM(price) total,u.name FROM shop s,user u WHERE u.userName = s.userToken and status = 0
         <if test="userToken != '' and userToken != null">
             and containPeople LIKE concat('%','${userToken}','%')
         </if>

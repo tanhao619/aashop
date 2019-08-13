@@ -85,9 +85,9 @@ public class AAshopServiceImpl extends ServiceImpl<AAshopMapper, AAshop> impleme
         JSONObject result = new JSONObject(true);
         //与我（userToken）相关的所有信息
         List<AAshop> list = AAshopMapper.getMylist(page,userToken);
-        String myMoneyInfo = AAshopMapper.getMyMoneyInfo(userToken);
+//        String myMoneyInfo = AAshopMapper.getMyMoneyInfo(userToken);
 
-        result.put("myTotal",myMoneyInfo);
+//        result.put("myTotal",myMoneyInfo);
         result.put("myList",list);
         return ResultUtil.result(SuccessResultEnum.SUCCESS.getCode(), SuccessResultEnum.SUCCESS.getMessage(), result);
     }
@@ -103,7 +103,6 @@ public class AAshopServiceImpl extends ServiceImpl<AAshopMapper, AAshop> impleme
         if (StringUtils.isEmpty(userToken)) {
             return ResultUtil.result(BizExceptionEnum.EMPTY_ERROR.getCode(), BizExceptionEnum.EMPTY_ERROR.getMessage());
         }
-        JSONObject result = new JSONObject(true);
         List<Map> list = AAshopMapper.getEveryonePay(page,userToken);
         return ResultUtil.result(SuccessResultEnum.SUCCESS.getCode(), SuccessResultEnum.SUCCESS.getMessage(), list);
     }

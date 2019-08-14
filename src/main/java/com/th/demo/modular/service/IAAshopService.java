@@ -21,4 +21,6 @@ public interface IAAshopService {
      Tip getMylist(Page page, String userToken);
 
      Tip everyonePay(Page page, String userToken);
+
+     Tip peopleDetail();
 }

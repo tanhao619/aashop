@@ -108,6 +108,16 @@ public class AAshopServiceImpl extends ServiceImpl<AAshopMapper, AAshop> impleme
     }
 
     /**
+     * 获取所有账单人员
+     * @return
+     */
+    @Override
+    public Tip peopleDetail() {
+        List<Map> list = AAshopMapper.peopleDetail();
+        return ResultUtil.result(SuccessResultEnum.SUCCESS.getCode(), SuccessResultEnum.SUCCESS.getMessage(), list);
+    }
+
+    /**
      * 详情
      * @param id
      * @return

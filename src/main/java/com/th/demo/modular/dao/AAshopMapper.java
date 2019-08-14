@@ -28,4 +28,6 @@ public interface AAshopMapper extends BaseMapper<AAshop> {
     void insertBill(Bill bill);
 
     String getMyMoneyInfo(@Param("userToken") String userToken);
+
+    List<Map> peopleDetail();
 }

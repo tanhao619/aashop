@@ -73,6 +73,12 @@ public class AAshopController {
         return IAAshopService.insertAAshop(shop);
     }
 
+    @ApiOperation(value="获取所有账单人员", notes="获取所有账单人员",response = HttpMessage.class)
+    @GetMapping("/aashop/peopleDetail")
+    public Tip peopleDetail() throws Exception{
+        return IAAshopService.peopleDetail();
+    }
+
     @ApiOperation(value="登录", notes="登录",response = HttpMessage.class)
     @PostMapping("/aashop/login")
     public Tip login( @ApiParam(value = "userName",required = true) @RequestParam String userName,

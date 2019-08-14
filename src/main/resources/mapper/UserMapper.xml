@@ -39,4 +39,8 @@
         insert into bill (shop_id,userToken,debtPeople,money,status,createTime)
         values (#{shop_id},#{userToken},#{debtPeople},#{money},#{status},#{createTime});
     </insert>
+
+    <select id="peopleDetail" resultType="Map">
+        SELECT name,userName FROM user
+    </select>
 </mapper>
